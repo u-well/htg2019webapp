@@ -40,10 +40,126 @@ function Banner(){
               
           start();
           setTimeout(function(){ document.getElementById("canvas").classList.add("hideIt");     
-          particlesJS("particles-js", 
-            {"particles":{"number":{"value":202,"density":{"enable":true,"value_area":641.3648243462092}},"color":{"value":"#ffffff"},"shape":{"type":"circle","stroke":{"width":0,"color":"#000000"},"polygon":{"nb_sides":5},"image":{"src":"img/github.svg","width":100,"height":100}},"opacity":{"value":0.5,"random":false,"anim":{"enable":false,"speed":1,"opacity_min":0.1,"sync":false}},"size":{"value":3,"random":true,"anim":{"enable":false,"speed":40,"size_min":0.1,"sync":false}},"line_linked":{"enable":true,"distance":150,"color":"#ffffff","opacity":0.4,"width":1},"move":{"enable":true,"speed":6,"direction":"none","random":false,"straight":false,"out_mode":"out","bounce":false,"attract":{"enable":false,"rotateX":600,"rotateY":1200}}},"interactivity":{"detect_on":"canvas","events":{"onhover":{"enable":true,"mode":"repulse"},"onclick":{"enable":true,"mode":"push"},"resize":true},"modes":{"grab":{"distance":400,"line_linked":{"opacity":1}},"bubble":{"distance":400,"size":40,"duration":2,"opacity":8,"speed":3},"repulse":{"distance":105.57003759917487,"duration":0.4},"push":{"particles_nb":4},"remove":{"particles_nb":2}}},"retina_detect":true});}, 3000);
-      }
-      
+            particlesJS("particles-js", 
+                {"particles":{"number":{"value":202,"density":{"enable":true,"value_area":641.3648243462092}},"color":{"value":"#ffffff"},"shape":{"type":"circle","stroke":{"width":0,"color":"#000000"},"polygon":{"nb_sides":5},"image":{"src":"img/github.svg","width":100,"height":100}},"opacity":{"value":0.5,"random":false,"anim":{"enable":false,"speed":1,"opacity_min":0.1,"sync":false}},"size":{"value":3,"random":true,"anim":{"enable":false,"speed":40,"size_min":0.1,"sync":false}},"line_linked":{"enable":true,"distance":150,"color":"#ffffff","opacity":0.4,"width":1},"move":{"enable":true,"speed":6,"direction":"none","random":false,"straight":false,"out_mode":"out","bounce":false,"attract":{"enable":false,"rotateX":600,"rotateY":1200}}},"interactivity":{"detect_on":"canvas","events":{"onhover":{"enable":true,"mode":"repulse"},"onclick":{"enable":true,"mode":"push"},"resize":true},"modes":{"grab":{"distance":400,"line_linked":{"opacity":1}},"bubble":{"distance":400,"size":40,"duration":2,"opacity":8,"speed":3},"repulse":{"distance":105.57003759917487,"duration":0.4},"push":{"particles_nb":4},"remove":{"particles_nb":2}}},"retina_detect":true});
+                setTimeout(function(){ document.getElementById("particles-js").classList.add("hideIt");     
+                
+                // https://codepen.io/tholman/pen/qCnfB
+                // Drawing with text. Ported from Generative Design book - http://www.generative-gestaltung.de - Original licence: http://www.apache.org/licenses/LICENSE-2.0
+
+                // Application variables
+                var position = {x: 0, y: window.innerHeight/2};
+                var counter = 0;
+                var minFontSize = 3;
+                var angleDistortion = 0;
+                var letters = "There was a table set out under a tree in front of the house, and the March Hare and the Hatter were having tea at it: a Dormouse was sitting between them, fast asleep, and the other two were using it as a cushion, resting their elbows on it, and talking over its head. 'Very uncomfortable for the Dormouse,' thought Alice; 'only, as it's asleep, I suppose it doesn't mind.'";
+
+                // Drawing variables
+                var canvas;
+                var context;
+                var mouse = {x: 0, y: 0, down: false}
+
+                function init() {
+                canvas = document.getElementById( 'drawText' );
+                context = canvas.getContext( '2d' );
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                
+                canvas.addEventListener('mousemove', mouseMove, false);
+                canvas.addEventListener('mousedown', mouseDown, false);
+                canvas.addEventListener('mouseup',   mouseUp,   false);
+                canvas.addEventListener('mouseout',  mouseUp,  false);  
+                canvas.addEventListener('dblclick', doubleClick, false);
+                
+                window.onresize = function(event) {
+                    canvas.width = window.innerWidth;
+                    canvas.height = window.innerHeight;
+                }
+                }
+
+                function mouseMove ( event ){
+                mouse.x = event.pageX;
+                mouse.y = event.pageY;
+                draw();
+                }
+
+                function draw() {
+                if ( mouse.down ) {
+                    var d = distance( position, mouse );
+                    var fontSize = minFontSize + d/2;
+                    var letter = letters[counter];
+                    var stepSize = textWidth( letter, fontSize );
+                    
+                    if (d > stepSize) {
+                    var angle = Math.atan2(mouse.y-position.y, mouse.x-position.x);
+                    
+                    context.font = fontSize + "px Georgia";
+                    
+                    context.save();
+                    context.translate( position.x, position.y);
+                    context.rotate( angle );
+                    context.fillText(letter,0,0);
+                    context.restore();
+
+                    counter++;
+                    if (counter > letters.length-1) {
+                        counter = 0;
+                    }
+                    
+                    //console.log (position.x + Math.cos( angle ) * stepSize)
+                    position.x = position.x + Math.cos(angle) * stepSize;
+                    position.y = position.y + Math.sin(angle) * stepSize;
+
+                    }
+                }     
+                }
+
+                function distance( pt, pt2 ){
+                
+                var xs = 0;
+                var ys = 0;
+                
+                xs = pt2.x - pt.x;
+                xs = xs * xs;
+                
+                ys = pt2.y - pt.y;
+                ys = ys * ys;
+                
+                return Math.sqrt( xs + ys );
+                }
+
+                function mouseDown( event ){
+                mouse.down = true;
+                position.x = event.pageX;
+                position.y = event.pageY;
+                
+                document.getElementById('info').style.display = 'none';
+                }
+
+                function mouseUp( event ){
+                    mouse.down = false;
+                }
+
+                function doubleClick( event ) {
+                canvas.width = canvas.width; 
+                }
+
+                function textWidth( string, size ) {
+                context.font = size + "px Georgia";
+                
+                if ( context.fillText ) {
+                    return context.measureText( string ).width;
+                } else if ( context.mozDrawText) {
+                    return context.mozMeasureText( string );
+                }
+                
+                };
+
+                init();
+            }, 3000);
+        },3000)
+    }
+
       var start = function(){
               
           bgContext.fillStyle = "#000000";
