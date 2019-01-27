@@ -14,7 +14,7 @@ body {
     font:normal 75% Arial, Helvetica, sans-serif; 
 } 
 
-canvas{ display: block; vertical-align: bottom; } 
+canvas{ display: block; } 
 /* ---- particles.js container ---- */ 
 #particles-js{ position:absolute; width: 100%; height: 100%; background-color: #b61924; background-image: url(""); background-repeat: no-repeat; background-size: cover; background-position: 50% 50%; } 
 
@@ -29,35 +29,19 @@ canvas{ display: block; vertical-align: bottom; }
 
 .count-particles{ border-radius: 0 0 3px 3px; }
 
-
-/* code for draw with text */
-@import "compass/css3";
-
-html, body {
-  width: 100%;
-  height: 100%;
-  margin: 0px;
-  overflow: hidden;
-  
-    &:hover {
-   span {
-      display: none; 
-    }
+body {
+    margin: 0;
   }
-}
-
-canvas {
- cursor: crosshair;
   
-}
-
-span {
-    font-family: 'Georgia', cursive;
-  font-size: 40px;
- position: fixed; 
-  top: 50%;
-  left: 50%;
-  color: #000;
-  margin-top: -40px;
-  margin-left: -200px;
-}
+  .wrap {
+    overflow: hidden;
+    position: relative;
+    height: 100vh;
+    background-image: linear-gradient(-206deg, #835EFF 0%, #FF008D 100%);
+  }
+  
+  #bubble {
+    width: 100%;
+    height: 100%;
+  }
+  
