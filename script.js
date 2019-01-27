@@ -39,6 +39,7 @@ function Banner(){
           canvas.addEventListener('mouseout', MouseOut, false);
               
           start();
+          setTimeout(function(){ alert("Hello"); }, 10000);
       }
       
       var start = function(){
@@ -158,4 +159,5 @@ function Banner(){
       }
   }
   var banner = new Banner();
-  banner.initialize("canvas");
+  banner.initialize("canvas")
+
