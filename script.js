@@ -39,7 +39,7 @@ function Banner(){
           canvas.addEventListener('mouseout', MouseOut, false);
               
           start();
-          setTimeout(function(){ alert("Hello"); }, 10000);
+          setTimeout(function(){ document.getElementById("canvas").classList.add("hideIt"); }, 3000);
       }
       
       var start = function(){
